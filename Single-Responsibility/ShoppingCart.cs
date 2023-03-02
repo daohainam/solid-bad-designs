@@ -59,6 +59,7 @@ namespace Single_Responsibility
 
         public void Print()
         {
+            Console.WriteLine();
             Console.WriteLine("SHOPPING CART");
             Console.WriteLine("~~~~~~~~~~~~~");
 
