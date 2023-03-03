@@ -4,7 +4,7 @@
 Để dịch và chạy, bạn xem thêm trong phần "Dịch và chạy chương trình" phía dưới.
 Năm nguyên tắc này gồm (bạn tham khảo các ví dụ trong từng thư mục tương ứng):
 
-##Single Responsibility
+## Single Responsibility
 Mỗi lớp chỉ phục vụ cho một mục đích duy nhất.
 Lớp ShoppingCart vi phạm nguyên tắc này khi nó vừa là nơi chứa nội dung giỏ hàng, vừa có các chức năng để Load/Save, 
 đồng thời có cả chức năng liên quan đến in nội dung giỏ hàng.
@@ -15,14 +15,14 @@ Rõ ràng các tính năng Print và Load/Save chẳng liên quan đến nhau v�
 nhóm của bạn có hai người riêng biệt phụ trách hai nhóm chức năng trên, họ sẽ phải liên tục merge code của nhau, điều đáng ra 
 hoàn toàn có thể tránh được.
 
-##Open-Closed
+## Open-Closed
 Các lớp phải cho phép mở rộng, nhưng không cho phép thay đổi lại các tính năng đã có.
 
-##Liskov Substitution
+## Liskov Substitution
 Nếu bạn có một con trỏ thuộc lớp cha, thì nó phải hoạt động hoàn toàn đúng đắn khi bạn trỏ nó đến bất kỳ lớp con nào.
 
-##Interface Segregation
+## Interface Segregation
 Khi thiết kế các interface, mỗi interface sẽ phục vụ cho một mục đích nào đó, đừng tạo các interface kiểu "tất cả trong một".
 
-##Dependency-Inversion
+## Dependency-Inversion
 Các lớp chỉ nên phụ thuộc vào các interface, không nên phụ thuộc vào các lớp cụ thể.
