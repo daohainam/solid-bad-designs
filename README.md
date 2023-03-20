@@ -64,8 +64,46 @@ Bạn có thể mở rộng ra bao nhiêu ngôn ngữ cũng được mà không 
 ## Liskov Substitution
 Nếu bạn có một con trỏ thuộc lớp cha, thì nó phải hoạt động hoàn toàn đúng đắn khi bạn trỏ nó đến bất kỳ lớp con nào.
 
+Vì một hình vuông vốn cũng là một hình chữ nhật với các cạnh bằng nhau, nên trong lớp Square ta override lại các thuộc tính Width để khi thay đổi giá trị chúng sẽ tự động cập nhật lại Height. Điều này không có vấn đề gì nếu bạn có một biến 
+```csharp
+Square sqr = new Square(10);
+```
+
+Nhưng nếu bạn khai báo là:
+```csharp
+Rectangle rect = new Square(10);
+rect.Width = 20;
+```
+
+Sau đó bạn mong muốn hình chữ nhật đó có diện tích bao nhiêu? Vì biến rect có kiểu Rectangle nên chắc chắn những người khác (và có thể cả bạn sau này) sẽ mặc nhiên coi nó trả về giá trị 200, nhưng thực chất nó sẽ trả về 400. 
+
 ## Interface Segregation
 Khi thiết kế các interface, mỗi interface sẽ phục vụ cho một mục đích nào đó, đừng tạo các interface kiểu "tất cả trong một".
 
+IOnlineStore chứa định nghĩa các function, vốn phục vụ cho 2 mục đích hoàn toàn khác nhau: quản lý giỏ hàng và tạo đơn hàng. Bởi chúng được định nghĩa cùng nhau nên các lớp thừa kế bạn cũng phải viết cùng nhau, không thể tách riêng được (hãy xem lại phần Single Responsibility). Sẽ hợp lý hơn nếu bạn chia ra:
+
+```csharp
+    public interface IOnlineStore
+    {
+        Order Checkout(ICart cart, CheckoutInfo checkoutInfo);
+    }
+    
+    public interface ICart {
+        void AddProduct(int productId, int quantity);
+        void RemoveProduct(int productId, int quantity);
+    }
+```
+
 ## Dependency-Inversion
 Các lớp chỉ nên phụ thuộc vào các interface, không nên phụ thuộc vào các lớp cụ thể.
+
+Trong lớp OnlineStore, bạn sử dụng ConsolePrinter và FileStorage. Điều đó có nghĩa bạn luôn phải gắn liền với một ConsolePrinter, dù có lúc bạn sẽ muốn in ra một máy in kiểu khác, hoặc dùng một cơ chế lưu trữ khác.
+Ta hay mắc lỗi này khi thiết kế các lớp làm việc với database, hoặc API... kiểu như:
+
+```csharp
+    public OnlineStore(AzureAPIBackend backend) {
+        this.backend = backend;
+    }
+```
+
+Kiểu thiết kế này khiến ta bị dính chặt với AzureAPIBackend, sẽ rất khó nếu muốn test riêng lớp OnlineStore mà không thiết lập một API backend phía sau.
