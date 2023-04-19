@@ -91,6 +91,7 @@ IOnlineStore chứa định nghĩa các function, vốn phục vụ cho 2 mục 
     public interface ICart {
         void AddProduct(int productId, int quantity);
         void RemoveProduct(int productId, int quantity);
+        IEnumerable<CartItem> GetItems();
     }
 ```
 
@@ -107,3 +108,26 @@ Ta hay mắc lỗi này khi thiết kế các lớp làm việc với database, 
 ```
 
 Kiểu thiết kế này khiến ta bị dính chặt với AzureAPIBackend, sẽ rất khó nếu muốn test riêng lớp OnlineStore mà không thiết lập một API backend phía sau.
+Bạn có thể thiết kế lại để tránh phụ thuộc vào AzureAPIBackEnd:
+
+```csharp
+    public OnlineStore(IAPIBackend backend) {
+        this.backend = backend;
+    }
+```
+
+Khi đó bạn có thể có:
+
+```csharp
+public class AzureAPIBackend: IAPIBackend 
+{
+}
+
+public class FakeMemoryAPIBackend: IAPIBackend 
+{
+// lớp này chỉ lưu dữ liệu trong memory, được dùng để test
+}
+
+```
+
+Vậy thì bạn có thể dễ dàng truyền vào một đối tượng FakeMemoryAPIBackend phù hợp để test lớp OnlineStore mà không cần phải setup cả một hệ thống backend trên Azure.
